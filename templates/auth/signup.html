@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <div class="card shadow mt-5">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Registrazione</h3>
+                
+                <form method="POST" action="signup">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input class="form-control" type="text" name="username" placeholder="Username" autofocus required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input class="form-control" type="password" name="password" placeholder="Password (min. 6 caratteri)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Conferma Password</label>
+                        <input class="form-control" type="password" name="password_confirm" placeholder="Conferma Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mb-2">Registrati</button>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary w-100">Hai già un account? Login</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

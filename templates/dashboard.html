@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Utente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <span class="navbar-brand">Portale CT</span>
+        <div class="d-flex">
+          <span class="navbar-text me-3">Benvenuto, {{ current_user.username }}</span>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Richiedi un CT</h4>
+                        <form method="post" action="{{ url_for('ct.request_ct') }}">
+                            <div class="mb-3">
+                                <label class="form-label">Tipo macchina</label>
+                                <select name="machine_type" class="form-select">
+                                    {% for m in machine_types %}
+                                    <option value="{{ m.id }}">{{ m.name }} ({{ m.cpu }} CPU, {{ m.ram }}GB RAM)</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">Richiedi</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Le tue richieste</h4>
+                        {% if requests %}
+                        <ul class="list-group">
+                            {% for r in requests %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ r.machine_name }}</strong> ({{ r.machine_cpu }} CPU, {{ r.machine_ram }}GB RAM)<br>
+                                        <small class="text-muted">{{ r.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                    </div>
+                                    <div>
+                                        {% if r.status == 'pending' %}
+                                            <span class="badge bg-warning">{{ r.status }}</span>
+                                            <form method="post" action="{{ url_for('ct.delete_ct_request', req_id=r.id) }}" class="d-inline ms-2">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Elimina</button>
+                                            </form>
+                                        {% elif r.status == 'approved' %}
+                                            <span class="badge bg-success">{{ r.status }}</span>
+                                            <a href="{{ url_for('ct.ct_access_details', req_id=r.id) }}" class="btn btn-sm btn-info ms-2">Dati accesso</a>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ r.status }}</span>
+                                            <form method="post" action="{{ url_for('ct.delete_ct_request', req_id=r.id) }}" class="d-inline ms-2">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Elimina</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="text-muted">Nessuna richiesta ancora. Crea la tua prima richiesta CT!</p>
+                        {% endif %} 
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-info">
+            {% for message in messages %}
+              {{ message }}<br>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

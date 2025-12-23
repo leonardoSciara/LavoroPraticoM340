@@ -1,0 +1,48 @@
+@hostname =localhost
+@port = 5000
+@host ={{hostname}}:{{port}}
+
+### test home 
+
+GET http://{{host}}/
+
+
+### test username
+
+GET http://{{host}}/user/erisa
+
+### test user id
+
+GET http://{{host}}/api/user/1
+
+
+### test save user
+POST http://{{host}}/user
+Content-type: application/json
+
+{
+    "name": "erisa",
+    "surname": "arifi"
+}
+
+
+### test users
+
+GET http://{{host}}/api/users
+
+
+### test delete user
+
+DELETE http://{{host}}/api/user/erisa
+
+
+
+### test api/user
+POST http://{{host}}/api/user
+Content-type: application/json
+
+{
+    "username": "erisa",
+    "email" : "erisa.asysi@samtrevano.ch",
+    "age" : 19
+}
