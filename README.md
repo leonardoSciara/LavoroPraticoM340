@@ -2,7 +2,7 @@
 
 ## Avvio dell'applicazione
 1. Avviare il CT e connettersi:  
-   **username**: root, **password**: Password&1
+   **user**: root, **password**: Password&1
 2. cd /creazioneVM/
 3. source .venv/bin/activate
 4. python app.py
@@ -17,6 +17,6 @@
 5. L’utente originale può accedere ai dati d’accesso della nuova macchina usando lo stesso account che ha inviato la richiesta.  
 
 ## Accesso SSH alla VM
-1. Nei dati d’accesso vengono forniti: **IP**, **username** e **password**.
+1. Nei dati d’accesso vengono forniti: **IP**, **user** e **password**.
 2. Per connettersi via SSH:  
-   **ssh username@IP**
+   **ssh user@IP**
